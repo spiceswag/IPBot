@@ -1,3 +1,4 @@
 /.settings
 /.vscode
 /dependency-reduced-pom.xml
+/target/
