@@ -42,7 +42,7 @@ public class IPBot extends JavaPlugin {
     private Discord discord = new Discord(this);
     private long delay;
     private long thing = 1;
-    private long time = 20;
+    private long time = 200;
     private TextChannel channel;
     private String msgID;
 
@@ -82,7 +82,7 @@ public class IPBot extends JavaPlugin {
   
                     systemipaddress = sc.readLine().trim();
                 } catch (Exception e) {
-                    getLogger().log(Level.SEVERE, "how r u so bad at coding", e);
+                    getLogger().log(Level.SEVERE, "spice is bad at coding", e);
                 }
 
                 EmbedBuilder embed = new EmbedBuilder();
@@ -90,7 +90,7 @@ public class IPBot extends JavaPlugin {
                 embed.setAuthor("Server IP: " + systemipaddress);
                 embed.setColor(new Color(0x696969));
 
-                if (msgID != null)  {
+                if (msgID != null && channel.retrieveMessageById(msgID) != null) {
                     channel.editMessageEmbedsById(msgID, embed.build()).queue();
                 } else {
                     channel.sendMessageEmbeds(embed.build()).queue();
