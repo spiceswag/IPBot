@@ -32,6 +32,7 @@ import java.io.*;
 import java.awt.*;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -48,6 +49,12 @@ public class IPBot extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Start cewl AF startup message
+        Bukkit.getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "      &3 __"));
+        Bukkit.getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "  &9| &3|__)   &2IPBot &a" + getDescription().getVersion()));
+        Bukkit.getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "  &9| &3|      &8Running on " + getServer().getBukkitVersion()));
+        Bukkit.getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', ""));
+
         saveDefaultConfig();
 
         try {
