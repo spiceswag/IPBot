@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package io.github.cosmicspice.IPBot;
+package com.spicean.IPBot;
 
 import java.util.logging.Level;
 
@@ -53,7 +53,7 @@ public class IPBot extends JavaPlugin {
         Bukkit.getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "      &3 __"));
         Bukkit.getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "  &9| &3|__)   &2IPBot &a" + getDescription().getVersion()));
         Bukkit.getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', "  &9| &3|      &8Running on " + getServer().getBukkitVersion()));
-        Bukkit.getLogger().log(Level.INFO, ChatColor.translateAlternateColorCodes('&', ""));
+        Bukkit.getLogger().log(Level.INFO, "");
 
         saveDefaultConfig();
 
