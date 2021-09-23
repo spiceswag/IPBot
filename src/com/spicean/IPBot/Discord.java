@@ -1,5 +1,5 @@
 /*
- * This file is part of SpiceUtils, licensed under the MIT license.
+ * This file is part of IPBot, licensed under the MIT license.
  * 
  * Copyright (c) 2021 CosmicSpice
  * 
