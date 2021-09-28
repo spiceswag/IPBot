@@ -116,6 +116,7 @@ public class IPBot extends JavaPlugin {
                 saveConfig();
             }
         }, time);
+        this.discord.getBot().shutdown()
     }
 
 }
