@@ -21,43 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.spicean.IPBot;
+package com.spicean.ipbot
 
-import java.util.logging.Level;
+import net.dv8tion.jda.api.JDA
+import kotlin.Throws
+import javax.security.auth.login.LoginException
+import net.dv8tion.jda.api.JDABuilder
+import org.bukkit.plugin.Plugin
+import java.lang.InterruptedException
+import java.util.logging.Level
 
-import javax.security.auth.login.LoginException;
+class Discord(private val plugin: Plugin) {
+    lateinit var bot: JDA
+        private set
 
-import org.bukkit.plugin.Plugin;
+    private lateinit var token: String
 
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-
-public class Discord {
-
-    private Plugin plugin;
-    private JDA bot;
-    private String token;
-
-    public Discord(Plugin plugin) {
-        this.plugin = plugin;
-    }
-
-    public void Init() throws LoginException {
-        token = plugin.getConfig().getString("token");
-
-        JDABuilder builder = JDABuilder.createDefault(token);
-        
-        bot = builder.build();
-
+    @Throws(LoginException::class)
+    fun init() {
+        token = plugin.config.getString("token").toString()
+        val builder = JDABuilder.createDefault(token)
+        bot = builder.build()
         try {
-            bot.awaitReady();
-        } catch (InterruptedException e) {
-            plugin.getLogger().log(Level.SEVERE, "Thread interrupted", e);
+            bot.awaitReady()
+        } catch (e: InterruptedException) {
+            plugin.logger.log(Level.SEVERE, "Thread interrupted", e)
         }
-    }
-
-    public JDA getBot() {
-        return bot;
     }
 
 }

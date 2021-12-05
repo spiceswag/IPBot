@@ -1,0 +1,6 @@
+main: com.spicean.ipbot.IPBot
+author: Spice
+name: IPBot
+version: 1.0
+
+api-version: 1.17
