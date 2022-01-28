@@ -21,15 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.spicean.ipbot
+package spicesw.ipbot
 
 import org.bukkit.plugin.java.JavaPlugin
 import net.dv8tion.jda.api.entities.TextChannel
 import org.bukkit.Bukkit
 import javax.security.auth.login.LoginException
-import java.lang.Runnable
 import java.io.BufferedReader
 import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.exceptions.ErrorResponseException
 import java.awt.Color
 import java.io.InputStreamReader
 import java.lang.Exception
@@ -40,16 +40,20 @@ class IPBot : JavaPlugin() {
 
     private val discord = Discord(this)
     private var delay: Long = 0
-    private val thing: Long = 1
-    private val time: Long = 200
     private var channel: TextChannel? = null
     private var msgID: String? = null
+
+    private var thread: Thread? = null
+
+    private var run: Boolean = false
 
     override fun onEnable() {
         displayStartup()
         saveDefaultConfig()
 
-        Thread {
+        run = true
+
+        thread = Thread {
             try {
                 discord.init()
             } catch (e: LoginException) {
@@ -58,43 +62,54 @@ class IPBot : JavaPlugin() {
             }
             delay = config.getLong("delay")
             if (delay == 0L) {
-                delay = 18000
+                delay = 900000
             }
             channel = discord.bot.getTextChannelById(config.getString("target-channel")!!)
             if (channel == null) {
                 logger.log(Level.SEVERE, "Please specify a channel to send the Server IP")
                 return@Thread
             }
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, {
+
+            while (run) {
                 msgID = config.getString("msgid")
                 var systemipaddress = ""
                 try {
-                    val urlName = URL("http://checkip.amazonaws.com/")
+                    val urlName = URL("https://checkip.amazonaws.com/")
                     val sc = BufferedReader(InputStreamReader(urlName.openStream()))
-                    systemipaddress = sc.readLine().trim { it <= ' ' }
+                    systemipaddress = sc.readLine().trim { it == ' ' }
                 } catch (e: Exception) {
-                    logger.log(Level.SEVERE, "Failed to reach http://checkip.amazonaws.com/", e)
+                    logger.log(Level.SEVERE, "Failed to reach https://checkip.amazonaws.com/", e)
                 }
+
                 val embed = EmbedBuilder()
                 embed.setAuthor("Server IP: $systemipaddress")
                 embed.setColor(Color(0x696969))
-                if (msgID != null && channel!!.retrieveMessageById(msgID!!) != null) {
-                    channel!!.editMessageEmbedsById(msgID!!, embed.build()).queue()
-                } else {
-                    channel!!.sendMessageEmbeds(embed.build()).queue()
-                    fixMsgId()
-                }
-            }, thing, delay)
-        }
 
+                if (msgID != null)
+                    try {
+                        channel!!.retrieveMessageById(msgID!!)
+                        channel!!.editMessageEmbedsById(msgID!!, embed.build()).queue()
+                    } catch (e: ErrorResponseException) {
+                        channel!!.sendMessageEmbeds(embed.build()).queue()
+                        fixMsgId()
+                    }
+
+                Thread.sleep(delay)
+            }
+            return@Thread
+        }
+        thread!!.start()
+    }
+
+    override fun onDisable() {
+        run = false
+        thread = null
     }
 
     private fun fixMsgId() {
-        Bukkit.getScheduler().runTaskLaterAsynchronously(this, Runnable {
-            msgID = channel!!.latestMessageId
-            config["msgid"] = msgID
-            saveConfig()
-        }, time)
+        msgID = channel!!.latestMessageId
+        config["msgid"] = msgID
+        saveConfig()
     }
 
     private fun displayStartup() {

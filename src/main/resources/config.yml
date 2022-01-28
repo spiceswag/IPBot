@@ -2,8 +2,8 @@ token:
 #Bot token
 target-channel:
 #The channel to send IP's to
-delay: 18000
-#how many ticks between IP updates
+delay: 900000
+#how many milliseconds between IP updates
 
 msgid:
 #No touch ples

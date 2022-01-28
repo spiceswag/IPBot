@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.spicean.ipbot
+package spicesw.ipbot
 
 import net.dv8tion.jda.api.JDA
 import kotlin.Throws

@@ -1,4 +1,4 @@
-main: com.spicean.ipbot.IPBot
+main: spicesw.ipbot.IPBot
 author: Spice
 name: IPBot
 version: 1.0
