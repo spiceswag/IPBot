@@ -1,6 +1,6 @@
 main: spicesw.ipbot.IPBot
-author: Spice
-name: IPBot
+author: spicesw0
+name: ipbot
 version: 1.0
 
-api-version: 1.17
+api-version: 1.18
